@@ -1,0 +1,75 @@
+
+patient {
+	patient_id integer pk increments unique
+	diabetes integer null
+	blood_pressure integer null
+	weight integer null
+	height integer null
+	dob date null
+	gender varchar null
+	address varchar(255) null
+	insurance_no integer null
+	blood_group varchar(10) null
+}
+
+patient_allergy {
+	patient_allergy_id integer pk increments unique
+	patient_id integer unique >* patient.patient_id
+	allergy_id integer unique > allergy.allergy_id
+}
+
+allergy {
+	allergy_id integer pk increments unique
+	name varchar(255) null
+	description varchar(255) null
+}
+
+patient_lab_analysis {
+	patient_lab_analysis_id integer pk increments unique
+	lab_analysis_id integer > lab_analysis.lab_analysis_id
+	patient_id integer > patient.patient_id
+	date_of_analysis date null
+}
+
+lab_analysis {
+	lab_analysis_id integer pk increments unique
+	analysis_description integer(255) null
+}
+
+appointment {
+	appointment_id integer pk increments unique
+	date_of_appointment date null
+	patient_id integer > patient.patient_id
+	doctor_id integer > doctor.doctor_id
+	institution_doctor_id integer > null.id
+	status varchar(50) unique
+}
+
+doctor {
+	doctor_id integer pk increments unique
+	first_name varchar(50) null
+	cnic integer(8) null
+	last_name varchar(50) null
+	specialization_id integer > specialization.specialization_id
+}
+
+specialization {
+	specialization_id integer pk increments unique
+	code varchar(4) null
+	name varchar(50) null
+}
+
+institution_doctor {
+	institution_doctor_id integer pk increments unique
+	doctor_id integer >* doctor.doctor_id
+	institution_id integer > institution.institution_id
+	status varchar(10) null
+}
+
+institution {
+	institution_id integer pk increments unique
+	name varchar(50) null
+	address varchar(50) null
+	description varchar(50) null
+}
+
